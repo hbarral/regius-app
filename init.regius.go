@@ -21,7 +21,7 @@ func initApplication() *application {
 	}
 
 	reg.AppName = "regius-app"
-	reg.Debug = true
+	reg.InfoLog.Println("Debug is set to", reg.Debug)
 
 	app := &application{
 		App: reg,
