@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"regius-app/handlers"
 
 	"gitlab.com/hbarral/regius"
 )
@@ -21,10 +22,17 @@ func initApplication() *application {
 	}
 
 	reg.AppName = "regius-app"
-	reg.InfoLog.Println("Debug is set to", reg.Debug)
 
-	app := &application{
+	myHandlers := &handlers.Handlers{
 		App: reg,
 	}
+
+	app := &application{
+		App:      reg,
+		Handlers: myHandlers,
+	}
+
+	app.App.Routes = app.routes()
+
 	return app
 }

@@ -1,9 +1,14 @@
 package main
 
-import "gitlab.com/hbarral/regius"
+import (
+	"regius-app/handlers"
+
+	"gitlab.com/hbarral/regius"
+)
 
 type application struct {
-	App *regius.Regius
+	App      *regius.Regius
+	Handlers *handlers.Handlers
 }
 
 func main() {
