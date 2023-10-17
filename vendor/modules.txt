@@ -8,4 +8,5 @@ github.com/joho/godotenv
 # gitlab.com/hbarral/regius v0.0.0-00010101000000-000000000000 => ../regius
 ## explicit; go 1.20
 gitlab.com/hbarral/regius
+gitlab.com/hbarral/regius/render
 # gitlab.com/hbarral/regius => ../regius

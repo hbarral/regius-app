@@ -1,7 +1,6 @@
 package regius
 
 import (
-	"fmt"
 	"net/http"
 
 	chi "github.com/go-chi/chi/v5"
@@ -20,10 +19,6 @@ func (r *Regius) routes() http.Handler {
 	}
 
 	mux.Use(middleware.Recoverer)
-
-	mux.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Welcome to Regius")
-	})
 
 	return mux
 }

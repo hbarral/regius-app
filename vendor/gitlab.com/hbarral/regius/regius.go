@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
+	"gitlab.com/hbarral/regius/render"
 )
 
 const version = "1.0.0"
@@ -22,6 +23,7 @@ type Regius struct {
 	InfoLog  *log.Logger
 	RootPath string
 	Routes   *chi.Mux
+	Render   *render.Render
 	config   config
 }
 
@@ -64,6 +66,8 @@ func (c *Regius) New(rootPath string) error {
 		renderer: os.Getenv("RENDERER"),
 	}
 
+	c.Render = c.createRenderer(c)
+
 	return nil
 }
 
@@ -84,7 +88,7 @@ func (r *Regius) ListenAndServe() {
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%s", os.Getenv("PORT")),
 		ErrorLog:     r.ErrorLog,
-		Handler:      r.routes(),
+		Handler:      r.Routes,
 		IdleTimeout:  30 * time.Second,
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 600 * time.Second,
@@ -114,4 +118,14 @@ func (c *Regius) startLoggers() (*log.Logger, *log.Logger) {
 	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	return infoLog, errorLog
+}
+
+func (r *Regius) createRenderer(reg *Regius) *render.Render {
+	myrenderer := render.Render{
+		Renderer: reg.config.renderer,
+		RootPath: reg.RootPath,
+		Port:     reg.config.port,
+	}
+
+	return &myrenderer
 }
