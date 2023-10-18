@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/CloudyKit/jet/v6"
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 	"gitlab.com/hbarral/regius/render"
@@ -24,6 +25,7 @@ type Regius struct {
 	RootPath string
 	Routes   *chi.Mux
 	Render   *render.Render
+	JetViews *jet.Set
 	config   config
 }
 
@@ -66,7 +68,14 @@ func (c *Regius) New(rootPath string) error {
 		renderer: os.Getenv("RENDERER"),
 	}
 
-	c.Render = c.createRenderer(c)
+	var views = jet.NewSet(
+		jet.NewOSFileSystemLoader(fmt.Sprintf("%s/views/", rootPath)),
+		jet.InDevelopmentMode(),
+	)
+
+	c.JetViews = views
+
+	c.createRenderer()
 
 	return nil
 }
@@ -120,12 +129,13 @@ func (c *Regius) startLoggers() (*log.Logger, *log.Logger) {
 	return infoLog, errorLog
 }
 
-func (r *Regius) createRenderer(reg *Regius) *render.Render {
+func (r *Regius) createRenderer() {
 	myrenderer := render.Render{
-		Renderer: reg.config.renderer,
-		RootPath: reg.RootPath,
-		Port:     reg.config.port,
+		Renderer: r.config.renderer,
+		RootPath: r.RootPath,
+		Port:     r.config.port,
+		JetViews: r.JetViews,
 	}
 
-	return &myrenderer
+	r.Render = &myrenderer
 }
