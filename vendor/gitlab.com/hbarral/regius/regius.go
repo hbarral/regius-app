@@ -95,6 +95,10 @@ func (c *Regius) New(rootPath string) error {
 			domain:   os.Getenv("COOKIE_DOMAIN"),
 		},
 		sessionType: os.Getenv("SESSION_TYPE"),
+		database: databaseConfig{
+			database: os.Getenv("DATABASE_TYPE"),
+			dsn:      c.BuildDSN(),
+		},
 	}
 
 	sess := session.Session{
@@ -141,6 +145,8 @@ func (r *Regius) ListenAndServe() {
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 600 * time.Second,
 	}
+
+	defer r.DB.Pool.Close()
 
 	r.InfoLog.Printf("Listening on port %s", os.Getenv("PORT"))
 
