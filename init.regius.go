@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"regius-app/data"
 	"regius-app/handlers"
 
 	"gitlab.com/hbarral/regius"
@@ -33,6 +34,8 @@ func initApplication() *application {
 	}
 
 	app.App.Routes = app.routes()
+
+	app.Models = data.New(app.App.DB.Pool)
 
 	return app
 }
