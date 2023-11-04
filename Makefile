@@ -29,8 +29,7 @@ stop:
 	@-pkill -SIGTERM -f "./tmp/${BINARY_NAME}"
 	@echo "Stopped Regius"
 
-restart:
-	stop start
+restart: stop start
 
 start_compose:
 	docker compose up -d
