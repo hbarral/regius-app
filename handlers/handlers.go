@@ -2,13 +2,15 @@ package handlers
 
 import (
 	"net/http"
+	"regius-app/data"
 
 	"github.com/CloudyKit/jet/v6"
 	"gitlab.com/hbarral/regius"
 )
 
 type Handlers struct {
-	App *regius.Regius
+	App    *regius.Regius
+	Models data.Models
 }
 
 func (h *Handlers) Home(w http.ResponseWriter, r *http.Request) {

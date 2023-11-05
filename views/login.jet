@@ -1,21 +1,21 @@
 {{extends "./layouts/base.jet"}}
 
 {{block browserTitle()}}
-Login
+Sign In
 {{end}}
 
 {{block css()}} {{end}}
 
 {{block pageContent()}} 
-<h2 class="mt-5 text-center">Login</h2>
+<h2 class="mt-5 text-center">Sign In</h2>
 
 <hr>
 
 <form
-  id="login-form"
-  name="login-form"
+  id="signin-form"
+  name="signin-form"
   method="post"
-  action="/users/login"
+  action="/users/signin"
   class="d-block needs-validation"
   autocomplete="off"
   novalidate=""
@@ -32,7 +32,7 @@ Login
 
   <hr>
 
-  <a href="javascript:void(0)" class="btn btn-primary" onclick="val()">Login</a>
+  <a href="javascript:void(0)" class="btn btn-primary" onclick="val()">Sign In</a>
   <p class="mt-2">
     <small><a href="/users/forgot-password">Forgot password?</a></small>
   </p>
@@ -49,7 +49,7 @@ Login
 {{block js()}}
 <script>
 function val() {
-  let form = document.getElementById("login-form")
+  let form = document.getElementById("signin-form")
 
   if (form.checkValidity() === false) {
     this.event.preventDefault()
