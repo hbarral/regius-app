@@ -4,9 +4,8 @@ import (
 	"errors"
 	"time"
 
-	"golang.org/x/crypto/bcrypt"
-
 	up "github.com/upper/db/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -50,7 +49,8 @@ func (u *User) GetByEmail(email string) (*User, error) {
 
 	var token Token
 	collection = upper.Collection(token.Table())
-	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).OrderBy("created_at desc")
+	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).
+		OrderBy("created_at desc")
 	err = res.One(&token)
 	if err != nil {
 		if err != up.ErrNilRecord && err != up.ErrNoMoreRows {
@@ -75,7 +75,8 @@ func (u *User) Get(id int) (*User, error) {
 
 	var token Token
 	collection = upper.Collection(token.Table())
-	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).OrderBy("created_at desc")
+	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).
+		OrderBy("created_at desc")
 	err = res.One(&token)
 	if err != nil {
 		if err != up.ErrNilRecord && err != up.ErrNoMoreRows {
@@ -109,7 +110,6 @@ func (u *User) Delete(id int) error {
 	}
 
 	return nil
-
 }
 
 func (u *User) Insert(theUser User) (int, error) {
@@ -152,7 +152,6 @@ func (u *User) ResetPassword(id int, password string) error {
 	}
 
 	return nil
-
 }
 
 func (u *User) PasswordMatches(plainText string) (bool, error) {
