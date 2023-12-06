@@ -22,7 +22,7 @@ test:
 	@go test ./...
 	@echo "Done!"
 
-start: run
+start: stop run
 
 stop:
 	@echo "Stopping Regius..."
@@ -36,3 +36,6 @@ start_compose:
 
 stop_compose:
 	docker compose down
+
+coverprofile:
+	go test -coverprofile=coverage.out
