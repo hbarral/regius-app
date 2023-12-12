@@ -13,13 +13,13 @@ func (a *application) routes() *chi.Mux {
 	// middlewares
 
 	// routes
-	a.App.Routes.Get("/", a.Handlers.Home)
+	a.get("/", a.Handlers.Home)
 	a.App.Routes.Get("/go-page", a.Handlers.GoPage)
 	a.App.Routes.Get("/jet-page", a.Handlers.JetPage)
 	a.App.Routes.Get("/sessions", a.Handlers.SessionTest)
 
 	a.App.Routes.Get("/users/signin", a.Handlers.UserSignIn)
-	a.App.Routes.Post("/users/signin", a.Handlers.PostUserSignIn)
+	a.post("/users/signin", a.Handlers.PostUserSignIn)
 	a.App.Routes.Get("/users/signout", a.Handlers.SignOut)
 
 	a.App.Routes.Get("/form", a.Handlers.Form)
