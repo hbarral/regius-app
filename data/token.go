@@ -1,10 +1,10 @@
 package data
 
 import (
-	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base32"
 	"errors"
+	"math/rand"
 	"net/http"
 	"strings"
 	"time"
@@ -33,7 +33,6 @@ func (t *Token) GetUserForToken(token string) (*User, error) {
 	var theToken Token
 
 	collection := upper.Collection(t.Table())
-
 	res := collection.Find(up.Cond{"token": token})
 	err := res.One(&theToken)
 	if err != nil {
@@ -112,6 +111,7 @@ func (t *Token) DeleteByToken(plainText string) error {
 
 func (t *Token) Insert(token Token, u User) error {
 	collection := upper.Collection(t.Table())
+
 	res := collection.Find(up.Cond{"user_id": u.ID})
 	err := res.Delete()
 	if err != nil {
@@ -153,12 +153,12 @@ func (t *Token) GenerateToken(userID int, ttl time.Duration) (*Token, error) {
 func (t *Token) AuthenticateToken(r *http.Request) (*User, error) {
 	authorizationHeader := r.Header.Get("Authorization")
 	if authorizationHeader == "" {
-		return nil, errors.New("No authorization header received")
+		return nil, errors.New("no authorization header received")
 	}
 
 	headerParts := strings.Split(authorizationHeader, " ")
 	if len(headerParts) != 2 || headerParts[0] != "Bearer" {
-		return nil, errors.New("No authorization header received")
+		return nil, errors.New("no authorization header received")
 	}
 
 	token := headerParts[1]
@@ -169,16 +169,16 @@ func (t *Token) AuthenticateToken(r *http.Request) (*User, error) {
 
 	tkn, err := t.GetByToken(token)
 	if err != nil {
-		return nil, errors.New("No matching token found")
+		return nil, errors.New("no matching token found")
 	}
 
 	if tkn.Expires.Before(time.Now()) {
-		return nil, errors.New("Expired token")
+		return nil, errors.New("expired token")
 	}
 
 	user, err := t.GetUserForToken(token)
 	if err != nil {
-		return nil, errors.New("No matching user found")
+		return nil, errors.New("no matching user found")
 	}
 
 	return user, nil
@@ -187,15 +187,15 @@ func (t *Token) AuthenticateToken(r *http.Request) (*User, error) {
 func (t *Token) ValidToken(token string) (bool, error) {
 	user, err := t.GetUserForToken(token)
 	if err != nil {
-		return false, errors.New("No matching user found")
+		return false, errors.New("no matching user found")
 	}
 
 	if user.Token.PlainText == "" {
-		return false, errors.New("No matching token found")
+		return false, errors.New("no matching token found")
 	}
 
 	if user.Token.Expires.Before(time.Now()) {
-		return false, errors.New("Expired token")
+		return false, errors.New("expired token")
 	}
 
 	return true, nil

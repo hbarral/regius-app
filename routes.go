@@ -38,7 +38,6 @@ func (a *application) routes() *chi.Mux {
 		}
 
 		fmt.Fprintf(w, "%d: %s", id, u.FirstName)
-
 	})
 
 	a.App.Routes.Get("/get-all-users", func(w http.ResponseWriter, r *http.Request) {
@@ -75,6 +74,15 @@ func (a *application) routes() *chi.Mux {
 		}
 
 		u.LastName = a.App.RandomString(10)
+
+		validator := a.App.Validator(nil)
+		validator.Check(len(u.LastName) > 20, "last_name", "Last name must be 20 characters or more")
+
+		if !validator.Valid() {
+			fmt.Fprint(w, "Failed validation")
+			return
+		}
+
 		err = u.Update(*u)
 		if err != nil {
 			a.App.ErrorLog.Println(err)
@@ -82,7 +90,6 @@ func (a *application) routes() *chi.Mux {
 		}
 
 		fmt.Fprintf(w, "update last name to %s", u.LastName)
-
 	})
 
 	// static routes

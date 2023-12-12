@@ -5,6 +5,7 @@ import (
 	"os"
 	"regius-app/data"
 	"regius-app/handlers"
+	"regius-app/middleware"
 
 	"gitlab.com/hbarral/regius"
 )
@@ -24,19 +25,25 @@ func initApplication() *application {
 
 	reg.AppName = "regius-app"
 
+	myMiddleware := &middleware.Middleware{
+		App: reg,
+	}
+
 	myHandlers := &handlers.Handlers{
 		App: reg,
 	}
 
 	app := &application{
-		App:      reg,
-		Handlers: myHandlers,
+		App:        reg,
+		Handlers:   myHandlers,
+		Middleware: myMiddleware,
 	}
 
 	app.App.Routes = app.routes()
 
 	app.Models = data.New(app.App.DB.Pool)
 	myHandlers.Models = app.Models
+	app.Middleware.Models = app.Models
 
 	return app
 }

@@ -16,7 +16,7 @@ type User struct {
 	Active    int       `db:"user_active"`
 	Password  string    `db:"password"`
 	CreatedAt time.Time `db:"created_at"`
-	UpdateAt  time.Time `db:"updated_at"`
+	UpdatedAt time.Time `db:"updated_at"`
 	Token     Token     `db:"-"`
 }
 
@@ -26,9 +26,10 @@ func (u *User) Table() string {
 
 func (u *User) GetAll() ([]*User, error) {
 	collection := upper.Collection(u.Table())
+
 	var all []*User
 
-	res := collection.Find()
+	res := collection.Find().OrderBy("last_name")
 	err := res.All(&all)
 	if err != nil {
 		return nil, err
@@ -38,9 +39,8 @@ func (u *User) GetAll() ([]*User, error) {
 }
 
 func (u *User) GetByEmail(email string) (*User, error) {
-	collection := upper.Collection(u.Table())
 	var theUser User
-
+	collection := upper.Collection(u.Table())
 	res := collection.Find(up.Cond{"email =": email})
 	err := res.One(&theUser)
 	if err != nil {
@@ -49,8 +49,7 @@ func (u *User) GetByEmail(email string) (*User, error) {
 
 	var token Token
 	collection = upper.Collection(token.Table())
-	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).
-		OrderBy("created_at desc")
+	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).OrderBy("created_at desc")
 	err = res.One(&token)
 	if err != nil {
 		if err != up.ErrNilRecord && err != up.ErrNoMoreRows {
@@ -75,8 +74,7 @@ func (u *User) Get(id int) (*User, error) {
 
 	var token Token
 	collection = upper.Collection(token.Table())
-	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).
-		OrderBy("created_at desc")
+	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry >": time.Now()}).OrderBy("created_at desc")
 	err = res.One(&token)
 	if err != nil {
 		if err != up.ErrNilRecord && err != up.ErrNoMoreRows {
@@ -90,14 +88,13 @@ func (u *User) Get(id int) (*User, error) {
 }
 
 func (u *User) Update(theUser User) error {
-	theUser.UpdateAt = time.Now()
+	theUser.UpdatedAt = time.Now()
 	collection := upper.Collection(u.Table())
 	res := collection.Find(theUser.ID)
 	err := res.Update(&theUser)
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -108,8 +105,8 @@ func (u *User) Delete(id int) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
+
 }
 
 func (u *User) Insert(theUser User) (int, error) {
@@ -119,7 +116,7 @@ func (u *User) Insert(theUser User) (int, error) {
 	}
 
 	theUser.CreatedAt = time.Now()
-	theUser.UpdateAt = time.Now()
+	theUser.UpdatedAt = time.Now()
 	theUser.Password = string(newHash)
 
 	collection := upper.Collection(u.Table())
