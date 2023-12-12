@@ -22,6 +22,9 @@ func (a *application) routes() *chi.Mux {
 	a.App.Routes.Post("/users/signin", a.Handlers.PostUserSignIn)
 	a.App.Routes.Get("/users/signout", a.Handlers.SignOut)
 
+	a.App.Routes.Get("/form", a.Handlers.Form)
+	a.App.Routes.Post("/form", a.Handlers.PostForm)
+
 	a.App.Routes.Get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
 			FirstName: "Héctor",

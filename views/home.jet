@@ -27,6 +27,7 @@
     <a href="/jet-page" class="list-group-item list-group-item-action">Render a Jet Template</a>
     <a href="/sessions" class="list-group-item list-group-item-action">Try Sessions</a>
     <a href="/users/signin" class="list-group-item list-group-item-action">Sign In</a>
+    <a href="/form" class="list-group-item list-group-item-action">Form Validation</a>
   </div>
 </div>
 {{end}}
