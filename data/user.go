@@ -5,6 +5,7 @@ import (
 	"time"
 
 	up "github.com/upper/db/v4"
+	"gitlab.com/hbarral/regius"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -22,6 +23,13 @@ type User struct {
 
 func (u *User) Table() string {
 	return "users"
+}
+
+func (u *User) Validate(validator *regius.Validation) {
+	validator.Check(u.LastName != "", "last_name", "Last name must be provided")
+	validator.Check(u.FirstName != "", "first_name", "First name must be provided")
+	validator.Check(u.Email != "", "email", "Email must be provided")
+	validator.IsEmail("email", u.Email)
 }
 
 func (u *User) GetAll() ([]*User, error) {
@@ -106,7 +114,6 @@ func (u *User) Delete(id int) error {
 		return err
 	}
 	return nil
-
 }
 
 func (u *User) Insert(theUser User) (int, error) {
