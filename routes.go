@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"regius-app/data"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+
+	"regius-app/data"
 )
 
 func (a *application) routes() *chi.Mux {
@@ -30,6 +31,12 @@ func (a *application) routes() *chi.Mux {
 	a.get("/download-file", a.Handlers.DownloadFile)
 
 	a.get("/crypto", a.Handlers.TestCrypto)
+
+	a.get("/cache-test", a.Handlers.ShowCachePage)
+	a.post("/api/save-in-cache", a.Handlers.SaveInCache)
+	a.post("/api/get-from-cache", a.Handlers.GetFromCache)
+	a.post("/api/delete-from-cache", a.Handlers.DeleteFromCache)
+	a.post("/api/empty-cache", a.Handlers.EmptyCache)
 
 	a.App.Routes.Get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
