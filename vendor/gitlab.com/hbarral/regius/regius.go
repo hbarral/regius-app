@@ -138,7 +138,7 @@ func (r *Regius) New(rootPath string) error {
 
 	views := jet.NewSet(
 		jet.NewOSFileSystemLoader(fmt.Sprintf("%s/views/", rootPath)),
-		jet.InDevelopmentMode(),
+		// jet.InDevelopmentMode(),
 	)
 
 	r.JetViews = views
