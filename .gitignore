@@ -2,6 +2,7 @@
 .env.master
 /tmp
 _db-data/
+.db-data/
 notes.md
 tags
 regius
