@@ -49,18 +49,18 @@ func (a *application) routes() *chi.Mux {
 			Data:        nil,
 		}
 
-		// a.App.Mail.Jobs <- msg
-		// res := <-a.App.Mail.Results
-		// if res.Error != nil {
-		// 	a.App.ErrorLog.Println(res.Error)
-		// }
-
-		err := a.App.Mail.SendSMTPMessage(msg)
-		if err != nil {
-			a.App.ErrorLog.Println(err)
-
-			return
+		a.App.Mail.Jobs <- msg
+		res := <-a.App.Mail.Results
+		if res.Error != nil {
+			a.App.ErrorLog.Println(res.Error)
 		}
+
+		// err := a.App.Mail.SendSMTPMessage(msg)
+		// if err != nil {
+		// 	a.App.ErrorLog.Println(err)
+		//
+		// 	return
+		// }
 
 		fmt.Fprint(w, "Email sent!")
 	})
