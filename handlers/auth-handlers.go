@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"regius-app/data"
 	"time"
+
+	"gitlab.com/hbarral/regius/mailer"
+	"gitlab.com/hbarral/regius/urlsigner"
 )
 
 func (h *Handlers) UserSignIn(w http.ResponseWriter, r *http.Request) {
@@ -117,4 +120,48 @@ func (h *Handlers) Forgot(w http.ResponseWriter, r *http.Request) {
 		h.App.ErrorLog.Println("Error Rendering: ", err)
 		h.App.Error500(w, r)
 	}
+}
+
+func (h *Handlers) PostForgot(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		h.App.ErrorStatus(w, http.StatusBadRequest)
+		return
+	}
+
+	var u *data.User
+	email := r.Form.Get("email")
+	u, err = u.GetByEmail(email)
+	if err != nil {
+		h.App.ErrorStatus(w, http.StatusBadRequest)
+		return
+	}
+
+	link := fmt.Sprintf("%s/users/reset-password?email=%s", h.App.Server.URL, email)
+
+	sign := urlsigner.Signer{
+		Secret: []byte(h.App.EncryptionKey),
+	}
+	signedLink := sign.GenerateTokenFromString(link)
+	h.App.InfoLog.Println("Signed link is: ", signedLink)
+
+	var data struct {
+		Link string
+	}
+	data.Link = signedLink
+	msg := mailer.Message{
+		To:       u.Email,
+		Subject:  "Password Reset",
+		Template: "password-reset",
+		Data:     data,
+		From:     "admin@some-example.com",
+	}
+	h.App.Mail.Jobs <- msg
+	res := <-h.App.Mail.Results
+	if res.Error != nil {
+		h.App.ErrorStatus(w, http.StatusBadRequest)
+		return
+	}
+
+	http.Redirect(w, r, "/users/signin", http.StatusSeeOther)
 }
