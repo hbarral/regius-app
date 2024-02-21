@@ -3,16 +3,16 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"regius-app/data"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"gitlab.com/hbarral/regius/mailer"
-
-	"regius-app/data"
 )
 
 func (a *application) routes() *chi.Mux {
 	// middlewares
+	a.use(a.Middleware.CheckRemember)
 
 	// routes
 	a.get("/", a.Handlers.Home)
