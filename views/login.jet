@@ -11,6 +11,12 @@ Sign In
 
 <hr>
 
+{{if .Flash != ""}}
+<div class="alert alert-info text-center">
+    {{.Flash}}
+</div>
+{{end}}
+
 <form
   id="signin-form"
   name="signin-form"

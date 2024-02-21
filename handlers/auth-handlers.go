@@ -198,3 +198,33 @@ func (h *Handlers) ResetPasswordForm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (h *Handlers) PostResetPassword(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	email, err := h.decrypt(r.Form.Get("email"))
+	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	var u data.User
+	user, err := u.GetByEmail(email)
+	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	err = user.ResetPassword(user.ID, r.Form.Get("password"))
+	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	h.App.Session.Put(r.Context(), "flash", "Password has been reset. You can now sign in.")
+	http.Redirect(w, r, "/users/signin", http.StatusSeeOther)
+}
