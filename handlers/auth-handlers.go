@@ -8,6 +8,7 @@ import (
 	"regius-app/data"
 	"time"
 
+	"github.com/CloudyKit/jet/v6"
 	"gitlab.com/hbarral/regius/mailer"
 	"gitlab.com/hbarral/regius/urlsigner"
 )
@@ -164,4 +165,36 @@ func (h *Handlers) PostForgot(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/users/signin", http.StatusSeeOther)
+}
+
+func (h *Handlers) ResetPasswordForm(w http.ResponseWriter, r *http.Request) {
+	email := r.URL.Query().Get("email")
+	theURL := r.RequestURI
+	testURL := fmt.Sprintf("%s%s", h.App.Server.URL, theURL)
+
+	signer := urlsigner.Signer{
+		Secret: []byte(h.App.EncryptionKey),
+	}
+	valid := signer.VerifyToken(testURL)
+	if !valid {
+		h.App.ErrorLog.Println("Invalid url")
+		h.App.ErrorUnauthorized(w, r)
+		return
+	}
+
+	expired := signer.Expired(testURL, 60)
+	if expired {
+		h.App.ErrorLog.Println("Link expired")
+		h.App.ErrorUnauthorized(w, r)
+		return
+	}
+
+	encryptedEmail, _ := h.encrypt(email)
+	vars := make(jet.VarMap)
+	vars.Set("email", encryptedEmail)
+
+	err := h.render(w, r, "reset-password", vars, nil)
+	if err != nil {
+		return
+	}
 }
