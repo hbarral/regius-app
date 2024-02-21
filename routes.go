@@ -23,6 +23,7 @@ func (a *application) routes() *chi.Mux {
 	a.App.Routes.Get("/users/signin", a.Handlers.UserSignIn)
 	a.post("/users/signin", a.Handlers.PostUserSignIn)
 	a.App.Routes.Get("/users/signout", a.Handlers.SignOut)
+	a.get("/users/forgot-password", a.Handlers.Forgot)
 
 	a.App.Routes.Get("/form", a.Handlers.Form)
 	a.App.Routes.Post("/form", a.Handlers.PostForm)

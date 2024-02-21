@@ -110,3 +110,11 @@ func (h *Handlers) SignOut(w http.ResponseWriter, r *http.Request) {
 	h.App.Session.RenewToken(r.Context())
 	http.Redirect(w, r, "/users/signin", http.StatusSeeOther)
 }
+
+func (h *Handlers) Forgot(w http.ResponseWriter, r *http.Request) {
+	err := h.render(w, r, "forgot", nil, nil)
+	if err != nil {
+		h.App.ErrorLog.Println("Error Rendering: ", err)
+		h.App.Error500(w, r)
+	}
+}
