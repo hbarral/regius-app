@@ -12,3 +12,9 @@ coverage:
 
 build_cli:
 	@go build -o ../regius-app/regius ./cmd/cli
+
+build:
+	@go build -o ./dist/regius ./cmd/cli
+
+install:
+	@go build -o ~/go/bin/regius -ldflags="-s -w" ./cmd/cli

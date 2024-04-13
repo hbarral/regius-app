@@ -1,3 +1,7 @@
 notes.md
 tags
 cache/testdata/
+dist/
+coverage.out
+.idea/
+.vscode/
