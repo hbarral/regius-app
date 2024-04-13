@@ -35,3 +35,19 @@ services:
 
     volumes:
       - ./_db-data/mariadb:/docker-entrypoint-initdb.d
+
+  minio:
+    image: 'quay.io/minio/minio'
+    command: server /mnt/data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    restart: always
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    volumes:
+      - data_minio:/mnt/data/
+
+volumes:
+  data_minio:
