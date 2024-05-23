@@ -3,13 +3,14 @@ package handlers
 import (
 	"net/http"
 	"net/url"
-	"regius-app/data"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
 	"gitlab.com/hbarral/regius"
 	"gitlab.com/hbarral/regius/filesystems"
 	"gitlab.com/hbarral/regius/filesystems/miniofilesystem"
+
+	"regius-app/data"
 )
 
 type Handlers struct {
@@ -67,6 +68,5 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 	err := h.render(w, r, "list-fs", vars, nil)
 	if err != nil {
 		h.App.ErrorLog.Println(err)
-		return
 	}
 }
