@@ -15,6 +15,7 @@ func (a *application) routes() *chi.Mux {
 	a.get("/", a.Handlers.Home)
 	a.get("/list-fs", a.Handlers.ListFS)
 	a.get("/files/upload", a.Handlers.UploadToFS)
+	a.post("/files/upload", a.Handlers.PostUploadToFS)
 	a.get("/test-minio", func(w http.ResponseWriter, r *http.Request) {
 		f := a.App.FileSystems["MINIO"].(miniofilesystem.Minio)
 

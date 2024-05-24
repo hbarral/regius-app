@@ -26,8 +26,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="formFile" class="form-label">Choose file...</label>
-                    <input class="form-control" type="file" name="formFile" id="formFile" required>
+                    <label for="form-file" class="form-label">Choose file...</label>
+                    <input class="form-control" type="file" name="form-file" id="form-file" required>
                 </div>
 
                 <hr>
@@ -65,3 +65,4 @@
 </script>
 
 {{end}}
+

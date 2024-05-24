@@ -1,8 +1,11 @@
 package handlers
 
 import (
+	"fmt"
+	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
@@ -81,4 +84,50 @@ func (h *Handlers) UploadToFS(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.App.ErrorLog.Println(err)
 	}
+}
+
+func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
+	fieldName, err := getFileToUpload(r, "form-file")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	uploadType := r.Form.Get("upload-type")
+
+	switch uploadType {
+	case "MINIO":
+		fs := h.App.FileSystems["MINIO"].(miniofilesystem.Minio)
+		err = fs.Put(fieldName, "")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	h.App.Session.Put(r.Context(), "flash", "File uploaded!")
+	http.Redirect(w, r, "/files/upload?type="+uploadType, http.StatusSeeOther)
+}
+
+func getFileToUpload(r *http.Request, fieldName string) (string, error) {
+	_ = r.ParseMultipartForm(10 << 20)
+
+	file, handler, err := r.FormFile(fieldName)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	destination, err := os.Create(fmt.Sprintf("./tmp/%s", handler.Filename))
+	if err != nil {
+		return "", err
+	}
+	defer destination.Close()
+
+	_, err = io.Copy(destination, file)
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("./tmp/%s", handler.Filename), nil
 }
