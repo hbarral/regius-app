@@ -131,3 +131,24 @@ func getFileToUpload(r *http.Request, fieldName string) (string, error) {
 
 	return fmt.Sprintf("./tmp/%s", handler.Filename), nil
 }
+
+func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
+	var fs filesystems.FS
+	fsType := r.URL.Query().Get("fs_type")
+	file := r.URL.Query().Get("file")
+
+	switch fsType {
+	case "MINIO":
+		f := h.App.FileSystems["MINIO"].(miniofilesystem.Minio)
+		fs = &f
+	}
+
+	deleted := fs.Delete([]string{file})
+	if deleted {
+		h.App.Session.Put(r.Context(), "flash", fmt.Sprintf("%s was deleted!", file))
+	} else {
+		h.App.Session.Put(r.Context(), "flash", "File not deleted!")
+	}
+
+	http.Redirect(w, r, "/list-fs?fs-type="+fsType, http.StatusSeeOther)
+}
