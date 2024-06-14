@@ -6,14 +6,14 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regius-app/data"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
 	"gitlab.com/hbarral/regius"
 	"gitlab.com/hbarral/regius/filesystems"
 	"gitlab.com/hbarral/regius/filesystems/miniofilesystem"
-
-	"regius-app/data"
+	"gitlab.com/hbarral/regius/filesystems/sftpfilesystem"
 )
 
 type Handlers struct {
@@ -53,6 +53,11 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			f := h.App.FileSystems["MINIO"].(miniofilesystem.Minio)
 			fs = &f
 			fsType = "MINIO"
+
+		case "SFTP":
+			f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
+			fs = &f
+			fsType = "SFTP"
 		}
 
 		l, err := fs.List(curPath)

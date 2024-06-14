@@ -7,6 +7,7 @@ toolchain go1.22.1
 replace gitlab.com/hbarral/regius v1.0.0 => ../regius
 
 require (
+	github.com/CloudyKit/jet/v6 v6.2.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/upper/db/v4 v4.6.0
 	gitlab.com/hbarral/regius v1.0.0
@@ -14,7 +15,6 @@ require (
 
 require (
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
-	github.com/CloudyKit/jet/v6 v6.2.0 // indirect
 	github.com/PuerkitoBio/goquery v1.5.1 // indirect
 	github.com/SparkPost/gosparkpost v0.2.0 // indirect
 	github.com/ainsleyclark/go-mail v1.0.3 // indirect
@@ -57,6 +57,7 @@ require (
 	github.com/justinas/nosurf v1.1.1 // indirect
 	github.com/klauspost/compress v1.17.6 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
+	github.com/kr/fs v0.1.0 // indirect
 	github.com/lib/pq v1.10.4 // indirect
 	github.com/mailgun/mailgun-go/v4 v4.4.1 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
@@ -65,6 +66,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pkg/sftp v1.13.6 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/segmentio/fasthash v1.0.3 // indirect

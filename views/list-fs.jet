@@ -26,6 +26,7 @@
                     <select class="form-select" id="fs-type" name="fs-type" required>
                         <option value="">Choose...</option>
                         <option {{if fs_type == "MINIO"}} selected {{end}} value="MINIO">Minio</option>
+                        <option {{if fs_type == "SFTP"}} selected {{end}} value="SFTP">SFTP</option>
                     </select>
                 </div>
 
