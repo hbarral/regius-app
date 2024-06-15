@@ -54,8 +54,8 @@ github.com/dgraph-io/badger/v3/y
 github.com/dgraph-io/ristretto
 github.com/dgraph-io/ristretto/z
 github.com/dgraph-io/ristretto/z/simd
-# github.com/dustin/go-humanize v1.0.0
-## explicit
+# github.com/dustin/go-humanize v1.0.1
+## explicit; go 1.16
 github.com/dustin/go-humanize
 # github.com/gabriel-vasile/mimetype v1.4.1
 ## explicit; go 1.12
@@ -102,6 +102,9 @@ github.com/gomodule/redigo/redis
 # github.com/google/flatbuffers v2.0.8+incompatible
 ## explicit
 github.com/google/flatbuffers/go
+# github.com/google/uuid v1.6.0
+## explicit
+github.com/google/uuid
 # github.com/gorilla/css v1.0.0
 ## explicit
 github.com/gorilla/css/scanner
@@ -145,21 +148,29 @@ github.com/jackc/pgx/v4/stdlib
 # github.com/joho/godotenv v1.5.1
 ## explicit; go 1.12
 github.com/joho/godotenv
-# github.com/json-iterator/go v1.1.10
+# github.com/json-iterator/go v1.1.12
 ## explicit; go 1.12
 github.com/json-iterator/go
 # github.com/justinas/nosurf v1.1.1
 ## explicit; go 1.12
 github.com/justinas/nosurf
-# github.com/klauspost/compress v1.15.11
-## explicit; go 1.17
+# github.com/klauspost/compress v1.17.6
+## explicit; go 1.19
 github.com/klauspost/compress
 github.com/klauspost/compress/fse
 github.com/klauspost/compress/huff0
 github.com/klauspost/compress/internal/cpuinfo
+github.com/klauspost/compress/internal/race
 github.com/klauspost/compress/internal/snapref
+github.com/klauspost/compress/s2
 github.com/klauspost/compress/zstd
 github.com/klauspost/compress/zstd/internal/xxhash
+# github.com/klauspost/cpuid/v2 v2.2.6
+## explicit; go 1.15
+github.com/klauspost/cpuid/v2
+# github.com/kr/fs v0.1.0
+## explicit
+github.com/kr/fs
 # github.com/lib/pq v1.10.4
 ## explicit; go 1.13
 github.com/lib/pq
@@ -169,18 +180,44 @@ github.com/lib/pq/scram
 ## explicit; go 1.13
 github.com/mailgun/mailgun-go/v4
 github.com/mailgun/mailgun-go/v4/events
-# github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
+# github.com/minio/md5-simd v1.1.2
+## explicit; go 1.14
+github.com/minio/md5-simd
+# github.com/minio/minio-go/v7 v7.0.69
+## explicit; go 1.21
+github.com/minio/minio-go/v7
+github.com/minio/minio-go/v7/pkg/credentials
+github.com/minio/minio-go/v7/pkg/encrypt
+github.com/minio/minio-go/v7/pkg/lifecycle
+github.com/minio/minio-go/v7/pkg/notification
+github.com/minio/minio-go/v7/pkg/replication
+github.com/minio/minio-go/v7/pkg/s3utils
+github.com/minio/minio-go/v7/pkg/set
+github.com/minio/minio-go/v7/pkg/signer
+github.com/minio/minio-go/v7/pkg/sse
+github.com/minio/minio-go/v7/pkg/tags
+# github.com/minio/sha256-simd v1.0.1
+## explicit; go 1.17
+github.com/minio/sha256-simd
+# github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
 ## explicit
 github.com/modern-go/concurrent
-# github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
-## explicit
+# github.com/modern-go/reflect2 v1.0.2
+## explicit; go 1.12
 github.com/modern-go/reflect2
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
+# github.com/pkg/sftp v1.13.6
+## explicit; go 1.15
+github.com/pkg/sftp
+github.com/pkg/sftp/internal/encoding/ssh/filexfer
 # github.com/robfig/cron/v3 v3.0.1
 ## explicit; go 1.12
 github.com/robfig/cron/v3
+# github.com/rs/xid v1.5.0
+## explicit; go 1.12
+github.com/rs/xid
 # github.com/segmentio/fasthash v1.0.3
 ## explicit; go 1.11
 github.com/segmentio/fasthash/fnv1a
@@ -217,9 +254,12 @@ github.com/vanng822/go-premailer/premailer
 ## explicit; go 1.13
 github.com/xhit/go-simple-mail/v2
 # gitlab.com/hbarral/regius v1.0.0 => ../regius
-## explicit; go 1.20
+## explicit; go 1.21
 gitlab.com/hbarral/regius
 gitlab.com/hbarral/regius/cache
+gitlab.com/hbarral/regius/filesystems
+gitlab.com/hbarral/regius/filesystems/miniofilesystem
+gitlab.com/hbarral/regius/filesystems/sftpfilesystem
 gitlab.com/hbarral/regius/mailer
 gitlab.com/hbarral/regius/render
 gitlab.com/hbarral/regius/session
@@ -233,18 +273,32 @@ go.opencensus.io/trace/tracestate
 # go.uber.org/atomic v1.7.0
 ## explicit; go 1.13
 go.uber.org/atomic
-# golang.org/x/crypto v0.16.0
+# golang.org/x/crypto v0.19.0
 ## explicit; go 1.18
+golang.org/x/crypto/argon2
+golang.org/x/crypto/blake2b
+golang.org/x/crypto/blowfish
+golang.org/x/crypto/chacha20
+golang.org/x/crypto/curve25519
+golang.org/x/crypto/curve25519/internal/field
+golang.org/x/crypto/internal/alias
+golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
-# golang.org/x/net v0.19.0
+golang.org/x/crypto/ssh
+golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
+# golang.org/x/net v0.21.0
 ## explicit; go 1.18
 golang.org/x/net/context
 golang.org/x/net/html
 golang.org/x/net/html/atom
+golang.org/x/net/http/httpguts
+golang.org/x/net/idna
 golang.org/x/net/internal/timeseries
+golang.org/x/net/publicsuffix
 golang.org/x/net/trace
-# golang.org/x/sys v0.15.0
+# golang.org/x/sys v0.17.0
 ## explicit; go 1.18
+golang.org/x/sys/cpu
 golang.org/x/sys/unix
 # golang.org/x/text v0.14.0
 ## explicit; go 1.18
@@ -290,3 +344,6 @@ google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/descriptorpb
+# gopkg.in/ini.v1 v1.67.0
+## explicit
+gopkg.in/ini.v1

@@ -15,6 +15,3 @@ build_cli:
 
 build:
 	@go build -o ./dist/regius ./cmd/cli
-
-install:
-	@go build -o ~/go/bin/regius -ldflags="-s -w" ./cmd/cli
