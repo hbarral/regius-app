@@ -1,7 +1,4 @@
-version: '3'
-
 services:
-
   postgres:
     image: 'postgres:13.4'
     ports:
@@ -12,7 +9,7 @@ services:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     volumes:
-      - ./_db-data/postgres/:/var/lib/postgresql/data/
+      - data_postgres:/var/lib/postgresql/data/
 
   redis:
     image: 'redis:alpine'
@@ -20,7 +17,7 @@ services:
       - 6379:6379
     restart: always
     volumes:
-      - ./_db-data/redis/:/data
+      - data_redis:/data
 
   mariadb:
     image: 'mariadb:10.6'
@@ -34,27 +31,27 @@ services:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
 
     volumes:
-      - ./_db-data/mariadb:/docker-entrypoint-initdb.d
+      - data_mariadb:/docker-entrypoint-initdb.d
 
   minio:
     image: 'quay.io/minio/minio'
     command: server /mnt/data --console-address ":9001"
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - 9000:9000
+      - 9001:9001
     restart: always
     environment:
-      MINIO_ROOT_USER: root
-      MINIO_ROOT_PASSWORD: password
+      MINIO_ROOT_USER: $MINIO_KEY
+      MINIO_ROOT_PASSWORD: $MINIO_SECRET
     volumes:
       - data_minio:/mnt/data/
 
   sftp:
     image: 'drakkan/sftpgo:latest'
     ports:
-      - "8082:8080"
-      - "2022:2022"
-      - "10080:10080"
+      - 8082:8080
+      - 2022:2022
+      - 10080:10080
     restart: always
     environment:
       SFTPGO_WEBDAVD__BINDINGS__0__PORT: 10080
@@ -66,3 +63,6 @@ volumes:
   data_minio:
   data_sftp:
   data_sftp_home:
+  data_mariadb:
+  data_postgres:
+  data_redis:
