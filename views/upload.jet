@@ -21,7 +21,8 @@
                     <label for="upload-type" class="form-label">Upload to...</label>
                     <select class="form-select" id="upload-type" name="upload-type" required>
                         <option value="">Select...</option>
-                        <option {{if fs_type == "MINIO"}} selected {{end}}value="MINIO">Minio</option>
+                        <option {{if fs_type == "MINIO"}} selected {{end}} value="MINIO">Minio</option>
+                        <option {{if fs_type == "SFTP"}} selected {{end}} value="SFTP">SFTP</option>
                     </select>
                 </div>
 
