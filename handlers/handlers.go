@@ -60,6 +60,11 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 			fs = &f
 			fsType = "SFTP"
+
+		case "WebDAV":
+			f := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
+			fs = &f
+			fsType = "WebDAV"
 		}
 
 		l, err := fs.List(curPath)
