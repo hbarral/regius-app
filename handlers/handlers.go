@@ -174,6 +174,10 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 	case "SFTP":
 		f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 		fs = &f
+
+	case "WebDAV":
+		f := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
+		fs = &f
 	}
 
 	deleted := fs.Delete([]string{file})
