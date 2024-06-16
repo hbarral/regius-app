@@ -23,6 +23,7 @@
                         <option value="">Select...</option>
                         <option {{if fs_type == "MINIO"}} selected {{end}} value="MINIO">Minio</option>
                         <option {{if fs_type == "SFTP"}} selected {{end}} value="SFTP">SFTP</option>
+                        <option {{if fs_type == "WebDAV"}} selected {{end}} value="WebDAV">WebDAV</option>
                     </select>
                 </div>
 
