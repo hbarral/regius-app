@@ -6,16 +6,16 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regius-app/data"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
 	"gitlab.com/hbarral/regius"
 	"gitlab.com/hbarral/regius/filesystems"
 	"gitlab.com/hbarral/regius/filesystems/miniofilesystem"
+	"gitlab.com/hbarral/regius/filesystems/s3filesystem"
 	"gitlab.com/hbarral/regius/filesystems/sftpfilesystem"
 	"gitlab.com/hbarral/regius/filesystems/webdavfilesystem"
-
-	"regius-app/data"
 )
 
 type Handlers struct {
@@ -126,6 +126,14 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 
 	case "WebDAV":
 		fs := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
+		err = fs.Put(fieldName, "")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+	case "S3":
+		fs := h.App.FileSystems["S3"].(s3filesystem.S3)
 		err = fs.Put(fieldName, "")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
