@@ -228,6 +228,9 @@ github.com/sendgrid/rest
 ## explicit
 github.com/sendgrid/sendgrid-go
 github.com/sendgrid/sendgrid-go/helpers/mail
+# github.com/studio-b12/gowebdav v0.9.0
+## explicit; go 1.17
+github.com/studio-b12/gowebdav
 # github.com/toorop/go-dkim v0.0.0-20201103131630-e1cd1a0a5208
 ## explicit
 github.com/toorop/go-dkim
@@ -260,6 +263,7 @@ gitlab.com/hbarral/regius/cache
 gitlab.com/hbarral/regius/filesystems
 gitlab.com/hbarral/regius/filesystems/miniofilesystem
 gitlab.com/hbarral/regius/filesystems/sftpfilesystem
+gitlab.com/hbarral/regius/filesystems/webdavfilesystem
 gitlab.com/hbarral/regius/mailer
 gitlab.com/hbarral/regius/render
 gitlab.com/hbarral/regius/session

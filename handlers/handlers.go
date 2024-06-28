@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"regius-app/data"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
@@ -14,6 +13,9 @@ import (
 	"gitlab.com/hbarral/regius/filesystems"
 	"gitlab.com/hbarral/regius/filesystems/miniofilesystem"
 	"gitlab.com/hbarral/regius/filesystems/sftpfilesystem"
+	"gitlab.com/hbarral/regius/filesystems/webdavfilesystem"
+
+	"regius-app/data"
 )
 
 type Handlers struct {
@@ -58,6 +60,11 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 			fs = &f
 			fsType = "SFTP"
+
+		case "WebDAV":
+			f := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
+			fs = &f
+			fsType = "WebDAV"
 		}
 
 		l, err := fs.List(curPath)
@@ -108,6 +115,7 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 	case "SFTP":
 		fs := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
 		err = fs.Put(fieldName, "")
@@ -115,6 +123,15 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+	case "WebDAV":
+		fs := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
+		err = fs.Put(fieldName, "")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 	}
 
 	h.App.Session.Put(r.Context(), "flash", "File uploaded!")
@@ -156,6 +173,10 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 
 	case "SFTP":
 		f := h.App.FileSystems["SFTP"].(sftpfilesystem.SFTP)
+		fs = &f
+
+	case "WebDAV":
+		f := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
 		fs = &f
 	}
 
