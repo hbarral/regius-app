@@ -28,6 +28,7 @@
                         <option {{if fs_type == "MINIO"}} selected {{end}} value="MINIO">Minio</option>
                         <option {{if fs_type == "SFTP"}} selected {{end}} value="SFTP">SFTP</option>
                         <option {{if fs_type == "WebDAV"}} selected {{end}} value="WebDAV">WebDAV</option>
+                        <option {{if fs_type == "S3"}} selected {{end}} value="S3">S3</option>
                     </select>
                 </div>
 
