@@ -65,6 +65,12 @@ func (h *Handlers) ListFS(w http.ResponseWriter, r *http.Request) {
 			f := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
 			fs = &f
 			fsType = "WebDAV"
+
+		case "S3":
+			f := h.App.FileSystems["S3"].(s3filesystem.S3)
+			fs = &f
+			fsType = "S3"
+
 		}
 
 		l, err := fs.List(curPath)
