@@ -192,6 +192,11 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 	case "WebDAV":
 		f := h.App.FileSystems["WebDAV"].(webdavfilesystem.WebDAV)
 		fs = &f
+
+	case "S3":
+		f := h.App.FileSystems["S3"].(s3filesystem.S3)
+		fs = &f
+
 	}
 
 	deleted := fs.Delete([]string{file})
