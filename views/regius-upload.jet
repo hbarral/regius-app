@@ -1,0 +1,60 @@
+{{extends "./layouts/base.jet"}}
+
+{{block browserTitle()}}Upload to  AnyFilesystem{{end}}
+
+{{block css()}}
+
+{{end}}
+
+{{block pageContent()}}
+
+<div class="col">
+    <div class="mt-5">
+        <div>
+            <h1>Upload to any filesystem</h1>
+            <hr>
+
+            <form method="post" action="/upload" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
+                <div class="mb-3">
+                    <label for="form-file" class="form-label">Choose file...</label>
+                    <input class="form-control" type="file" name="form-file" id="form-file" required>
+                </div>
+
+                <hr>
+                <input type="submit" class="btn btn-primary" value="Upload">
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{{end}}
+
+
+{{block js()}}
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    })
+</script>
+
+{{end}}
+

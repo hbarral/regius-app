@@ -208,3 +208,23 @@ func (h *Handlers) DeleteFromFS(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/list-fs?fs-type="+fsType, http.StatusSeeOther)
 }
+
+func (h *Handlers) RegiusUpload(w http.ResponseWriter, r *http.Request) {
+	err := h.render(w, r, "regius-upload", nil, nil)
+	if err != nil {
+		h.App.ErrorLog.Println(err)
+	}
+}
+
+func (h *Handlers) PostRegiusUpload(w http.ResponseWriter, r *http.Request) {
+	// &h.App.Minio | &h.App.SFTP | &h.App.WebDAV | &h.App.S3 | nil
+	err := h.App.UploadFile(r, "", "form-file", &h.App.S3)
+	if err != nil {
+		h.App.ErrorLog.Println(err)
+		h.App.Session.Put(r.Context(), "error", err.Error())
+	} else {
+		h.App.Session.Put(r.Context(), "flash", "File uploaded!")
+	}
+
+	http.Redirect(w, r, "/upload", http.StatusSeeOther)
+}

@@ -13,6 +13,8 @@ func (a *application) routes() *chi.Mux {
 
 	// routes
 	a.get("/", a.Handlers.Home)
+	a.get("/upload", a.Handlers.RegiusUpload)
+	a.post("/upload", a.Handlers.PostRegiusUpload)
 	a.get("/list-fs", a.Handlers.ListFS)
 	a.get("/files/upload", a.Handlers.UploadToFS)
 	a.post("/files/upload", a.Handlers.PostUploadToFS)
