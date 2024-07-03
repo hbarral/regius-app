@@ -158,12 +158,11 @@ func (r *Regius) New(rootPath string) error {
 	r.Mail = r.createMailer()
 	r.Routes = r.routes().(*chi.Mux)
 
-	allowedTypes := strings.Split(os.Getenv("ALLOWED_FILETYPES"), ",")
-	// exploded := strings.Split(os.Getenv("ALLOWED_FILETYPES"), ",")
-	// var allowedTypes []string
-	// for _, at := range exploded {
-	//   allowedTypes = append(allowedTypes, strings.TrimSpace(at))
-	// }
+	exploded := strings.Split(os.Getenv("ALLOWED_FILETYPES"), ",")
+	var allowedTypes []string
+	for _, at := range exploded {
+		allowedTypes = append(allowedTypes, strings.TrimSpace(at))
+	}
 
 	r.config = config{
 		port:     os.Getenv("PORT"),
