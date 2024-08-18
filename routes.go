@@ -10,8 +10,11 @@ import (
 
 func (a *application) routes() *chi.Mux {
 	// middlewares
+	a.use(a.Middleware.CheckRemember)
 
 	// routes
+	a.get("/users/signin", a.Handlers.UserSignIn)
+	a.post("/users/signin", a.Handlers.PostUserSignIn)
 	a.get("/", a.Handlers.Home)
 	a.get("/upload", a.Handlers.RegiusUpload)
 	a.post("/upload", a.Handlers.PostRegiusUpload)
