@@ -251,3 +251,15 @@ func (h *Handlers) InitSocialAuth() {
 
 	gothic.Store = store
 }
+
+func (h *Handlers) SocialSignin(w http.ResponseWriter, r *http.Request) {
+	provider := chi.URLParam(r, "provider")
+	h.App.Session.Put(r.Context(), "provider", provider)
+	h.InitSocialAuth()
+	_, err := gothic.CompleteUserAuth(w, r)
+	if err == nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	} else {
+		gothic.BeginAuthHandler(w, r)
+	}
+}
