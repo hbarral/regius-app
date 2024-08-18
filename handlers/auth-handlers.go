@@ -263,3 +263,52 @@ func (h *Handlers) SocialSignin(w http.ResponseWriter, r *http.Request) {
 		gothic.BeginAuthHandler(w, r)
 	}
 }
+
+func (h *Handlers) SocialCallback(w http.ResponseWriter, r *http.Request) {
+	h.InitSocialAuth()
+
+	gothUser, err := gothic.CompleteUserAuth(w, r)
+	if err != nil {
+		h.App.Session.Put(r.Context(), "error", err.Error())
+		http.Redirect(w, r, "/users/signin", http.StatusSeeOther)
+		return
+	}
+
+	var u data.User
+	var testUser *data.User
+
+	testUser, err = u.GetByEmail(gothUser.Email)
+	if err != nil {
+		log.Println(err)
+		provider := h.App.Session.Get(r.Context(), "provider").(string)
+
+		var newUser data.User
+		if provider == "github" {
+			exploded := strings.Split(gothUser.Name, " ")
+			newUser.FirstName = exploded[0]
+
+			if len(exploded) > 1 {
+				newUser.LastName = exploded[1]
+			}
+		}
+
+		newUser.Active = 1
+		newUser.Password = h.randomString(20)
+		newUser.CreatedAt = time.Now()
+		newUser.UpdatedAt = time.Now()
+
+		_, err = newUser.Insert(newUser)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		testUser, _ = u.GetByEmail(gothUser.Email)
+	}
+
+	h.App.Session.Put(r.Context(), "userID", testUser.ID)
+	h.App.Session.Put(r.Context(), "social_token", gothicUser.AccessToken)
+	h.App.Session.Put(r.Context(), "social_email", gothicUser.Email)
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
