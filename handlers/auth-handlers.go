@@ -5,12 +5,17 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/http"
-	"regius-app/data"
+	"os"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
+	"github.com/markbates/goth"
+	"github.com/markbates/goth/gothic"
+	"github.com/markbates/goth/providers/github"
 	"gitlab.com/hbarral/regius/mailer"
 	"gitlab.com/hbarral/regius/urlsigner"
+
+	"regius-app/data"
 )
 
 func (h *Handlers) UserSignIn(w http.ResponseWriter, r *http.Request) {
@@ -227,4 +232,22 @@ func (h *Handlers) PostResetPassword(w http.ResponseWriter, r *http.Request) {
 
 	h.App.Session.Put(r.Context(), "flash", "Password has been reset. You can now sign in.")
 	http.Redirect(w, r, "/users/signin", http.StatusSeeOther)
+}
+
+func (h *Handlers) InitSocialAuth() {
+	githubScope := []string{"user"}
+
+	goth.UserProviders(
+		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), os.Getenv("GITHUB_CALLBACK"), githubScope...),
+	)
+
+	key := os.Getenv("KEY")
+	maxAge := 86400 * 30
+	store := sessions.NewCookieStore([]byte(key))
+	store.MaxAge(maxAge)
+	store.Options.Path = "/"
+	store.Options.HttpOnly = true
+	store.Options.Secure = false // TODO: Change to true in production
+
+	gothic.Store = store
 }
