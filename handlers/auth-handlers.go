@@ -4,11 +4,15 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
+	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/github"
@@ -237,7 +241,7 @@ func (h *Handlers) PostResetPassword(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) InitSocialAuth() {
 	githubScope := []string{"user"}
 
-	goth.UserProviders(
+	goth.UseProviders(
 		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), os.Getenv("GITHUB_CALLBACK"), githubScope...),
 	)
 
@@ -292,7 +296,7 @@ func (h *Handlers) SocialCallback(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		newUser.Active = 1
+		newUser.Email = gothUser.Email
 		newUser.Password = h.randomString(20)
 		newUser.CreatedAt = time.Now()
 		newUser.UpdatedAt = time.Now()
@@ -307,8 +311,8 @@ func (h *Handlers) SocialCallback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.App.Session.Put(r.Context(), "userID", testUser.ID)
-	h.App.Session.Put(r.Context(), "social_token", gothicUser.AccessToken)
-	h.App.Session.Put(r.Context(), "social_email", gothicUser.Email)
+	h.App.Session.Put(r.Context(), "social_token", gothUser.AccessToken)
+	h.App.Session.Put(r.Context(), "social_email", gothUser.Email)
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
