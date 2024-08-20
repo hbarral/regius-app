@@ -18,6 +18,7 @@ import (
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/github"
+	"github.com/markbates/goth/providers/google"
 	"gitlab.com/hbarral/regius/mailer"
 	"gitlab.com/hbarral/regius/urlsigner"
 
@@ -244,9 +245,11 @@ func (h *Handlers) PostResetPassword(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handlers) InitSocialAuth() {
 	githubScope := []string{"user"}
+	googleScope := []string{"profile", "email"}
 
 	goth.UseProviders(
 		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), os.Getenv("GITHUB_CALLBACK"), githubScope...),
+		google.New(os.Getenv("GOOGLE_KEY"), os.Getenv("GOOGLE_SECRET"), os.Getenv("GOOGLE_CALLBACK"), googleScope...),
 	)
 
 	key := os.Getenv("KEY")
@@ -298,6 +301,11 @@ func (h *Handlers) SocialCallback(w http.ResponseWriter, r *http.Request) {
 			if len(exploded) > 1 {
 				newUser.LastName = exploded[1]
 			}
+		}
+
+		if provider == "google" {
+			newUser.FirstName = gothUser.FirstName
+			newUser.LastName = gothUser.LastName
 		}
 
 		newUser.Email = gothUser.Email
