@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -101,6 +103,8 @@ func (h *Handlers) SignOut(w http.ResponseWriter, r *http.Request) {
 		rt := data.RememberToken{}
 		_ = rt.Delete(h.App.Session.GetString(r.Context(), "remember_token"))
 	}
+
+	h.socialSignOut(w, r)
 
 	newCookie := http.Cookie{
 		Name:     fmt.Sprintf("_%s_remember", h.App.AppName),
@@ -315,4 +319,44 @@ func (h *Handlers) SocialCallback(w http.ResponseWriter, r *http.Request) {
 	h.App.Session.Put(r.Context(), "social_email", gothUser.Email)
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func (h *Handlers) socialSignOut(w http.ResponseWriter, r *http.Request) {
+	provider, ok := h.App.Session.Get(r.Context(), "provider").(string)
+	if !ok {
+		return
+	}
+
+	switch provider {
+	case "github":
+		clientId := os.Getenv("GITHUB_KEY")
+		clientSecret := os.Getenv("GITHUB_SECRET")
+		token := h.App.Session.Get(r.Context(), "social_token").(string)
+
+		var payload struct {
+			AccessToken string `json:"access_token"`
+		}
+		payload.AccessToken = token
+
+		jsonReq, _ := json.Marshal(payload)
+		req, err := http.NewRequest(http.MethodDelete,
+			fmt.Sprintf("https://%s:%s@api.github.com/applications/%s/grant", clientId, clientSecret, clientId),
+			bytes.NewBuffer(jsonReq),
+		)
+		if err != nil {
+			h.App.ErrorLog.Println(err)
+			return
+		}
+
+		client := &http.Client{}
+		_, err = client.Do(req)
+		if err != nil {
+			h.App.ErrorLog.Println("Error signing out of Gihub: ", err)
+			return
+		}
+	}
+
+	h.App.Session.Remove(r.Context(), "userID")
+	h.App.Session.Remove(r.Context(), "social_token")
+	h.App.Session.Remove(r.Context(), "social_email")
 }
