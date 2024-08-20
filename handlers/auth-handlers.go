@@ -362,6 +362,13 @@ func (h *Handlers) socialSignOut(w http.ResponseWriter, r *http.Request) {
 			h.App.ErrorLog.Println("Error signing out of Gihub: ", err)
 			return
 		}
+
+	case "google":
+		token := h.App.Session.Get(r.Context(), "social_token").(string)
+		_, err := http.PostForm(fmt.Sprintf("https://accounts.google.com/o/oauth2/revoke?token=%s", token), nil)
+		if err != nil {
+			h.App.ErrorLog.Println("Error signing out of Google: ", err)
+		}
 	}
 
 	h.App.Session.Remove(r.Context(), "userID")
