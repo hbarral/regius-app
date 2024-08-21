@@ -25,7 +25,7 @@ func (a *application) routes() *chi.Mux {
 	a.get("/files/upload", a.Handlers.UploadToFS)
 	a.post("/files/upload", a.Handlers.PostUploadToFS)
 	a.get("/delete-from-fs", a.Handlers.DeleteFromFS)
-	a.get("/test-minio", func(w http.ResponseWriter, r *http.Request) {
+	a.get("/test-minio", func(_ http.ResponseWriter, _ *http.Request) {
 		f := a.App.FileSystems["MINIO"].(miniofilesystem.Minio)
 
 		files, err := f.List("")
@@ -42,6 +42,9 @@ func (a *application) routes() *chi.Mux {
 	// static routes
 	fileServer := http.FileServer(http.Dir("./public"))
 	a.App.Routes.Handle("/public/*", http.StripPrefix("/public", fileServer))
+
+	// api
+	a.App.Routes.Mount("/api", a.ApiRoutes())
 
 	return a.App.Routes
 }
