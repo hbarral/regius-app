@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/CloudyKit/jet/v6"
 	"github.com/alexedwards/scs/v2"
+	"github.com/go-chi/chi/v5"
 	"gitlab.com/hbarral/regius"
 	"gitlab.com/hbarral/regius/mailer"
 	"gitlab.com/hbarral/regius/render"
@@ -64,4 +66,21 @@ func TestMain(m *testing.M) {
 
 	testHandlers.App = &reg
 	os.Exit(m.Run())
+}
+
+func getRoutes() http.Handler {
+	mux := chi.NewRouter()
+	mux.Use(reg.SessionLoad)
+	mux.Get("/", testHandlers.Home)
+
+	return mux
+}
+
+func getCtx(req *http.Request) context.Context {
+	ctx, err := testSession.Load(req.Context(), req.Header.Get("X-Session"))
+	if err != nil {
+		log.Println(err)
+	}
+
+	return ctx
 }
