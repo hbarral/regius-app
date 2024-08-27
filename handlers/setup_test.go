@@ -73,6 +73,9 @@ func getRoutes() http.Handler {
 	mux.Use(reg.SessionLoad)
 	mux.Get("/", testHandlers.Home)
 
+	fileServer := http.FileServer(http.Dir("./../public/"))
+	mux.Handle("/public/*", http.StripPrefix("/public", fileServer))
+
 	return mux
 }
 
