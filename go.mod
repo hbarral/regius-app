@@ -8,6 +8,7 @@ replace gitlab.com/hbarral/regius v1.0.0 => ../regius
 
 require (
 	github.com/CloudyKit/jet/v6 v6.2.0
+	github.com/alexedwards/scs/v2 v2.6.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/gorilla/sessions v1.3.0
 	github.com/markbates/goth v1.80.0
@@ -28,7 +29,6 @@ require (
 	github.com/alexedwards/scs/mysqlstore v0.0.0-20231113091146-cef4b05350c8 // indirect
 	github.com/alexedwards/scs/postgresstore v0.0.0-20231113091146-cef4b05350c8 // indirect
 	github.com/alexedwards/scs/redisstore v0.0.0-20231113091146-cef4b05350c8 // indirect
-	github.com/alexedwards/scs/v2 v2.6.0 // indirect
 	github.com/andybalholm/cascadia v1.1.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/aws/aws-sdk-go v1.54.8 // indirect
@@ -43,6 +43,7 @@ require (
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
+	github.com/go-rod/rod v0.116.2 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/gobuffalo/envy v1.10.2 // indirect
 	github.com/gobuffalo/fizz v1.14.4 // indirect
@@ -118,6 +119,11 @@ require (
 	github.com/vanng822/css v1.0.1 // indirect
 	github.com/vanng822/go-premailer v1.20.2 // indirect
 	github.com/xhit/go-simple-mail/v2 v2.16.0 // indirect
+	github.com/ysmood/fetchup v0.2.3 // indirect
+	github.com/ysmood/goob v0.4.0 // indirect
+	github.com/ysmood/got v0.40.0 // indirect
+	github.com/ysmood/gson v0.7.3 // indirect
+	github.com/ysmood/leakless v0.9.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/mod v0.12.0 // indirect

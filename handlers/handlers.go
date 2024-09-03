@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"regius-app/data"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
@@ -16,6 +15,8 @@ import (
 	"gitlab.com/hbarral/regius/filesystems/s3filesystem"
 	"gitlab.com/hbarral/regius/filesystems/sftpfilesystem"
 	"gitlab.com/hbarral/regius/filesystems/webdavfilesystem"
+
+	"regius-app/data"
 )
 
 type Handlers struct {
@@ -227,4 +228,11 @@ func (h *Handlers) PostRegiusUpload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/upload", http.StatusSeeOther)
+}
+
+func (h *Handlers) Clicker(w http.ResponseWriter, r *http.Request) {
+	err := h.render(w, r, "tester", nil, nil)
+	if err != nil {
+		h.App.ErrorLog.Println(err)
+	}
 }
