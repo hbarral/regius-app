@@ -52,3 +52,25 @@ func TestHomeWithSession(t *testing.T) {
 		t.Errorf("session values do not match, want %v, got %v", "test_value", reg.Session.GetString(ctx, "test_key"))
 	}
 }
+
+func TestClicker(t *testing.T) {
+	routes := getRoutes()
+
+	testServer := httptest.NewTLSServer(routes)
+	defer testServer.Close()
+
+	page := reg.FetchPage(testServer.URL + "/tester")
+	outputElement := reg.SelectElementByID(page, "output")
+	button := reg.SelectElementByID(page, "clicker")
+
+	testHTML, _ := outputElement.HTML()
+	if strings.Contains(testHTML, "Clicked the button") {
+		t.Errorf("expected output to be 0, but got %s", testHTML)
+	}
+
+	button.MustClick()
+	testHTML, _ = outputElement.HTML()
+	if !strings.Contains(testHTML, "Clicked the button") {
+		t.Errorf("expected output to be 1, but got %s", testHTML)
+	}
+}

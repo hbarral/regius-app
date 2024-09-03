@@ -19,6 +19,7 @@ func (a *application) routes() *chi.Mux {
 	a.get("/auth/{provider}", a.Handlers.SocialSignin)
 	a.get("/auth/{provider}/callback", a.Handlers.SocialCallback)
 	a.get("/", a.Handlers.Home)
+	a.get("/tester", a.Handlers.Clicker)
 	a.get("/upload", a.Handlers.RegiusUpload)
 	a.post("/upload", a.Handlers.PostRegiusUpload)
 	a.get("/list-fs", a.Handlers.ListFS)
