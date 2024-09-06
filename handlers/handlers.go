@@ -149,6 +149,8 @@ func (h *Handlers) PostUploadToFS(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	defer os.Remove(fieldName)
+
 	h.App.Session.Put(r.Context(), "flash", "File uploaded!")
 	http.Redirect(w, r, "/files/upload?type="+uploadType, http.StatusSeeOther)
 }
