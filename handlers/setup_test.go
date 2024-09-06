@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"context"
 	"log"
 	"net/http"
 	"os"
@@ -72,19 +71,9 @@ func getRoutes() http.Handler {
 	mux := chi.NewRouter()
 	mux.Use(reg.SessionLoad)
 	mux.Get("/", testHandlers.Home)
-	mux.Get("/tester", testHandlers.Clicker)
 
 	fileServer := http.FileServer(http.Dir("./../public/"))
 	mux.Handle("/public/*", http.StripPrefix("/public", fileServer))
 
 	return mux
-}
-
-func getCtx(req *http.Request) context.Context {
-	ctx, err := testSession.Load(req.Context(), req.Header.Get("X-Session"))
-	if err != nil {
-		log.Println(err)
-	}
-
-	return ctx
 }
