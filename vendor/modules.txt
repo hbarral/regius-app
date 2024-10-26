@@ -1,9 +1,3 @@
-# cloud.google.com/go/compute v1.20.1
-## explicit; go 1.19
-cloud.google.com/go/compute/internal
-# cloud.google.com/go/compute/metadata v0.2.3
-## explicit; go 1.19
-cloud.google.com/go/compute/metadata
 # filippo.io/edwards25519 v1.1.0
 ## explicit; go 1.20
 filippo.io/edwards25519
@@ -105,9 +99,6 @@ github.com/aws/aws-sdk-go/service/sts/stsiface
 ## explicit
 github.com/aymerick/douceur/css
 github.com/aymerick/douceur/parser
-# github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631
-## explicit
-github.com/bwmarrin/go-alone
 # github.com/cespare/xxhash v1.1.0
 ## explicit
 github.com/cespare/xxhash
@@ -290,12 +281,6 @@ github.com/gorilla/css/scanner
 # github.com/gorilla/mux v1.8.0
 ## explicit; go 1.12
 github.com/gorilla/mux
-# github.com/gorilla/securecookie v1.1.2
-## explicit; go 1.20
-github.com/gorilla/securecookie
-# github.com/gorilla/sessions v1.3.0
-## explicit; go 1.20
-github.com/gorilla/sessions
 # github.com/hashicorp/errwrap v1.1.0
 ## explicit
 github.com/hashicorp/errwrap
@@ -366,6 +351,8 @@ github.com/klauspost/cpuid/v2
 # github.com/kr/fs v0.1.0
 ## explicit
 github.com/kr/fs
+# github.com/kr/pretty v0.3.1
+## explicit; go 1.12
 # github.com/lib/pq v1.10.9
 ## explicit; go 1.13
 github.com/lib/pq
@@ -375,12 +362,6 @@ github.com/lib/pq/scram
 ## explicit; go 1.13
 github.com/mailgun/mailgun-go/v4
 github.com/mailgun/mailgun-go/v4/events
-# github.com/markbates/goth v1.80.0
-## explicit; go 1.18
-github.com/markbates/goth
-github.com/markbates/goth/gothic
-github.com/markbates/goth/providers/github
-github.com/markbates/goth/providers/google
 # github.com/mattn/go-colorable v0.1.13
 ## explicit; go 1.15
 github.com/mattn/go-colorable
@@ -457,6 +438,8 @@ github.com/sourcegraph/annotate
 # github.com/sourcegraph/syntaxhighlight v0.0.0-20170531221838-bd320f5d308e
 ## explicit
 github.com/sourcegraph/syntaxhighlight
+# github.com/stretchr/testify v1.9.0
+## explicit; go 1.17
 # github.com/studio-b12/gowebdav v0.9.0
 ## explicit; go 1.17
 github.com/studio-b12/gowebdav
@@ -514,7 +497,6 @@ gitlab.com/hbarral/regius/filesystems/webdavfilesystem
 gitlab.com/hbarral/regius/mailer
 gitlab.com/hbarral/regius/render
 gitlab.com/hbarral/regius/session
-gitlab.com/hbarral/regius/urlsigner
 # go.opencensus.io v0.24.0
 ## explicit; go 1.13
 go.opencensus.io
@@ -528,7 +510,6 @@ go.uber.org/atomic
 # golang.org/x/crypto v0.23.0
 ## explicit; go 1.18
 golang.org/x/crypto/argon2
-golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blake2b
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/chacha20
@@ -556,17 +537,6 @@ golang.org/x/net/idna
 golang.org/x/net/internal/timeseries
 golang.org/x/net/publicsuffix
 golang.org/x/net/trace
-# golang.org/x/oauth2 v0.17.0
-## explicit; go 1.18
-golang.org/x/oauth2
-golang.org/x/oauth2/authhandler
-golang.org/x/oauth2/google
-golang.org/x/oauth2/google/internal/externalaccount
-golang.org/x/oauth2/google/internal/externalaccountauthorizeduser
-golang.org/x/oauth2/google/internal/stsexchange
-golang.org/x/oauth2/internal
-golang.org/x/oauth2/jws
-golang.org/x/oauth2/jwt
 # golang.org/x/sync v0.3.0
 ## explicit; go 1.17
 golang.org/x/sync/errgroup
@@ -594,18 +564,6 @@ golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
-# google.golang.org/appengine v1.6.8
-## explicit; go 1.11
-google.golang.org/appengine
-google.golang.org/appengine/internal
-google.golang.org/appengine/internal/app_identity
-google.golang.org/appengine/internal/base
-google.golang.org/appengine/internal/datastore
-google.golang.org/appengine/internal/log
-google.golang.org/appengine/internal/modules
-google.golang.org/appengine/internal/remote_api
-google.golang.org/appengine/internal/urlfetch
-google.golang.org/appengine/urlfetch
 # google.golang.org/protobuf v1.32.0
 ## explicit; go 1.17
 google.golang.org/protobuf/encoding/prototext
@@ -635,6 +593,8 @@ google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/descriptorpb
+# gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
+## explicit; go 1.11
 # gopkg.in/ini.v1 v1.67.0
 ## explicit
 gopkg.in/ini.v1
