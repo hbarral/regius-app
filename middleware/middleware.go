@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"regius-app/data"
+	"github.com/hbarral/regius"
 
-	"gitlab.com/hbarral/regius"
+	"regius-app/data"
 )
 
 type Middleware struct {

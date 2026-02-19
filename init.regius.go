@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 	"os"
+
+	"github.com/hbarral/regius"
+
 	"regius-app/data"
 	"regius-app/handlers"
 	"regius-app/middleware"
-
-	"gitlab.com/hbarral/regius"
 )
 
 func initApplication() *application {

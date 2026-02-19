@@ -10,9 +10,9 @@ import (
 	"github.com/CloudyKit/jet/v6"
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi/v5"
-	"gitlab.com/hbarral/regius"
-	"gitlab.com/hbarral/regius/mailer"
-	"gitlab.com/hbarral/regius/render"
+	"github.com/hbarral/regius"
+	"github.com/hbarral/regius/mailer"
+	"github.com/hbarral/regius/render"
 )
 
 var (

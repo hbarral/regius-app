@@ -6,7 +6,7 @@ import (
 	"sync"
 	"syscall"
 
-	"gitlab.com/hbarral/regius"
+	"github.com/hbarral/regius"
 
 	"regius-app/data"
 	"regius-app/handlers"

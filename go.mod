@@ -4,14 +4,12 @@ go 1.21
 
 toolchain go1.22.1
 
-replace gitlab.com/hbarral/regius v1.0.0 => ../regius
-
 require (
 	github.com/CloudyKit/jet/v6 v6.2.0
 	github.com/alexedwards/scs/v2 v2.6.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/upper/db/v4 v4.6.0
-	gitlab.com/hbarral/regius v1.0.0
+	github.com/hbarral/regius v1.5.2
 )
 
 require (

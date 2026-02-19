@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"gitlab.com/hbarral/regius"
+	"github.com/hbarral/regius"
 
 	"regius-app/data"
 )
